@@ -137,19 +137,21 @@ class Base {
 			$content = isset($data['content']) ? trim($data['content']) : null;
 
 			$path = '';
-			if ($slug = $this->slugify($title)) {
-				$path = $folder;
-				if ($folder == '_new_') {
-					$path = trim($new_folder, '/');
-				}
-				$path .= '/';
-				if ($order) {
-					$path .= $order . '-';
-				}
-				$path .= $slug . $this->config->get('app.content_extension');
-			} else {
-				$this->session->getFlashBag()->add('error', 'A valid title is required');
+			$slug = $this->slugify($title);
+			
+			if(!$slug){
+				$slug = 'index';
 			}
+			
+			$path = $folder;
+			if ($folder == '_new_') {
+				$path = trim($new_folder, '/');
+			}
+			$path .= '/';
+			if ($order) {
+				$path .= $order . '-';
+			}
+			$path .= $slug . $this->config->get('app.content_extension');
 
 			$header = '';
 			if ($title) {
